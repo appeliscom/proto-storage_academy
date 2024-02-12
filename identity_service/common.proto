@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = "GoServerCore/proto-storage/generated/go/identity_service";
+option java_package = "com.appelis.identity";
+
+package appelis.identity.common.v1;
+
+message Token {
+    string data = 1;
+}
+
+enum TokenError {
+    UNKNOWN_TOKEN_ERROR = 0;
+    INVALID_TOKEN = 1;
+}
+
+enum PermissionError {
+    UNKNOWN_PERMISSION_ERROR = 0;
+    UNAUTHORIZED = 1;
+}

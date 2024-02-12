@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package appelis.identity.v1;
+
+// Public api for generating jwt tokens
+service IdentityService {
+    // Creates tokenPayload. Creates jwt token with assigned claims + generates refresh token for assigned JWT.
+    rpc Create (CreateRequest) returns (CreateResponse) {}
+    // Use refresh token to regenerate jwt token with assigned claims.
+    rpc Refresh (RefreshRequest) returns (RefreshResponse) {}
+}
+
+message CreateRequest {
+    // used to login user without project
+    message Credentials {
+        string username = 1;
+        string pass = 2;
+    }
+
+    // Used by phones to generate token for device
+    message DeviceKey {
+        string appKey = 1;
+        string deviceUuid = 2;
+    }
+
+    // user by logged web user to get token for project
+    message ProjectUserLoginToken {
+        string loginToken = 1;
+        string projectId = 2;
+    }
+
+    // used by jobs to get token for "default" customer. As claim will be used project id of user connected to token.
+    message UserLoginToken {
+        string loginToken = 1;
+    }
+
+    oneof payload {
+        Credentials credentials = 1;
+        string appKey = 2;
+        ProjectUserLoginToken loginToken = 3;
+        DeviceKey deviceKey = 4;
+        UserLoginToken defaultLoginToken = 5;
+    }
+}
+
+message CreateResponse {
+    enum Error {
+        UNSPECIFIED = 0;
+        WRONG_PAYLOAD = 1;
+    }
+
+    oneof payload {
+        TokenPayload data = 1;
+        Error error = 2;
+    }
+}
+
+message RefreshRequest {
+    string refreshToken = 1;
+}
+
+message RefreshResponse {
+    enum Error {
+        UNSPECIFIED = 0;
+        INVALID_TOKEN = 1;
+    }
+
+    oneof payload {
+        TokenPayload data = 1;
+        Error error = 2;
+    }
+}
+
+
+message TokenPayload {
+    string refreshToken = 1;
+    string accessToken = 2;
+}

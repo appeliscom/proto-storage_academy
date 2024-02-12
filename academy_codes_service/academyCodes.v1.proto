@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package appelis.academyCodes.v1;
+
+import "identity_service/common.proto";
+import "google/protobuf/timestamp.proto";
+
+service AcademyCodesService {
+  rpc UseCode (UseCodeRequest) returns (UseCodeResponse) {}
+}
+
+message UseCodeRequest {
+  appelis.identity.common.v1.Token token = 1;
+  string courseId = 2;
+  string couponCode = 3;
+  string ticketUrl = 4;
+  string orderId = 5;
+  google.protobuf.Timestamp dateApplied = 6;
+}
+
+message UseCodeResponse {
+  oneof payload {
+    appelis.identity.common.v1.TokenError tokenErr = 1;
+    appelis.identity.common.v1.PermissionError permErr = 2;
+  }
+}
