@@ -42,7 +42,7 @@ Example of building the client stubs are in the `Dockerfile`, this is to
 demonstrate the correctness of the files and can be also used to build the files
 for production, then mount the image and copy the needed `.php` files.
 Note that building the `grpc_php_plugin` from the source (best practice)
-and the `pecl install grpc` command take a long time.
+and the `pecl install grpc` command take a long time (~27 minutes on decent CPU).
 
 `docker build -t academy-grpc-php -f ./Dockerfile .`
 
@@ -113,3 +113,6 @@ and the `pecl install grpc` command take a long time.
 
 28 directories, 32 files
 ```
+
+Following command will copy the library files to the `lib` directory:
+`docker run -it --rm -v $(pwd)/lib:/mnt --name academy-grpc-php-1 academy-grpc-php cp -r /usr/lib/proto-storage_academy/ /mnt`
