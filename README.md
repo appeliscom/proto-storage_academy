@@ -19,28 +19,28 @@ protoc \
   --proto_path=proto-storage_academy \
   --php_out=proto-storage_academy/academy_codes_service/php \
   --grpc_out=proto-storage_academy/academy_codes_service/grpc \
-  --plugin=protoc-gen-grpc=/bin/grpc_php_plugin \
+  --plugin=protoc-gen-grpc=/usr/bin/grpc_php_plugin \
   ./proto-storage_academy/academy_codes_service/academyCodes.v1.proto
 
 protoc \
   --proto_path=proto-storage_academy \
   --php_out=proto-storage_academy/identity_service/php \
   --grpc_out=proto-storage_academy/identity_service/grpc \
-  --plugin=protoc-gen-grpc=/bin/grpc_php_plugin \
+  --plugin=protoc-gen-grpc=/usr/bin/grpc_php_plugin \
   ./proto-storage_academy/identity_service/common.proto
 
 protoc \
   --proto_path=proto-storage_academy \
   --php_out=proto-storage_academy/identity_service/php \
   --grpc_out=proto-storage_academy/identity_service/grpc \
-  --plugin=protoc-gen-grpc=/bin/grpc_php_plugin \
+  --plugin=protoc-gen-grpc=/usr/bin/grpc_php_plugin \
   ./proto-storage_academy/identity_service/identity.v1.proto
 ```
 
 ## Dockerfile
 Example of building the client stubs are in the `Dockerfile`, this is to
 demonstrate the correctness of the files and can be also used to build the files
-for production, then mount the image and copy the needed `.php` files.
+for production, then run the container with volume mount and copy the needed `.php` files.
 Note that building the `grpc_php_plugin` from the source (best practice)
 and the `pecl install grpc` command take a long time (~27 minutes on decent CPU).
 
