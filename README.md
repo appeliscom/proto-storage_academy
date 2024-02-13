@@ -15,21 +15,101 @@ How to generate PHP code based on protocol buffers:
 
 E.g. (not tested) :
 ```
-protoc --proto_path=proto-storage_academy \
+protoc \
+  --proto_path=proto-storage_academy \
   --php_out=proto-storage_academy/academy_codes_service/php \
-  --grpc_out=proto-storage_academy/academy_codes_service/php \
-  --plugin=protoc-gen-grpc=bins/opt/grpc_php_plugin \
+  --grpc_out=proto-storage_academy/academy_codes_service/grpc \
+  --plugin=protoc-gen-grpc=/bin/grpc_php_plugin \
   ./proto-storage_academy/academy_codes_service/academyCodes.v1.proto
 
-protoc --proto_path=proto-storage_academy \
+protoc \
+  --proto_path=proto-storage_academy \
   --php_out=proto-storage_academy/identity_service/php \
-  --grpc_out=proto-storage_academy/identity_service/php \
-  --plugin=protoc-gen-grpc=bins/opt/grpc_php_plugin \
+  --grpc_out=proto-storage_academy/identity_service/grpc \
+  --plugin=protoc-gen-grpc=/bin/grpc_php_plugin \
   ./proto-storage_academy/identity_service/common.proto
 
-protoc --proto_path=proto-storage_academy \
+protoc \
+  --proto_path=proto-storage_academy \
   --php_out=proto-storage_academy/identity_service/php \
-  --grpc_out=proto-storage_academy/identity_service/php \
-  --plugin=protoc-gen-grpc=bins/opt/grpc_php_plugin \
+  --grpc_out=proto-storage_academy/identity_service/grpc \
+  --plugin=protoc-gen-grpc=/bin/grpc_php_plugin \
   ./proto-storage_academy/identity_service/identity.v1.proto
+```
+
+## Dockerfile
+Example of building the client stubs are in the `Dockerfile`, this is to
+demonstrate the correctness of the files and can be also used to build the files
+for production, then mount the image and copy the needed `.php` files.
+Note that building the `grpc_php_plugin` from the source (best practice)
+and the `pecl install grpc` command take a long time.
+
+`docker build -t academy-grpc-php -f ./Dockerfile .`
+
+`docker run -it --rm -v academy-grpc-php` will display the generated files:
+
+```
+/src/proto-storage_academy
+|-- academy_codes_service
+|   |-- academyCodes.v1.proto
+|   |-- grpc
+|   |   `-- Appelis
+|   |       `-- AcademyCodes
+|   |           `-- V1
+|   |               `-- AcademyCodesServiceClient.php
+|   `-- php
+|       |-- Appelis
+|       |   `-- AcademyCodes
+|       |       `-- V1
+|       |           |-- UseCodeRequest.php
+|       |           |-- UseCodeResponse
+|       |           |   `-- UseCodeInvalidPayload.php
+|       |           |-- UseCodeResponse.php
+|       |           `-- UseCodeResponse_UseCodeInvalidPayload.php
+|       `-- GPBMetadata
+|           `-- AcademyCodesService
+|               `-- AcademyCodesV1.php
+`-- identity_service
+    |-- common.proto
+    |-- grpc
+    |   `-- Appelis
+    |       `-- Identity
+    |           `-- V1
+    |               `-- IdentityServiceClient.php
+    |-- identity.v1.proto
+    `-- php
+        |-- Appelis
+        |   `-- Identity
+        |       |-- Common
+        |       |   `-- V1
+        |       |       |-- PermissionError.php
+        |       |       |-- Token.php
+        |       |       `-- TokenError.php
+        |       `-- V1
+        |           |-- CreateRequest
+        |           |   |-- Credentials.php
+        |           |   |-- DeviceKey.php
+        |           |   |-- ProjectUserLoginToken.php
+        |           |   `-- UserLoginToken.php
+        |           |-- CreateRequest.php
+        |           |-- CreateRequest_Credentials.php
+        |           |-- CreateRequest_DeviceKey.php
+        |           |-- CreateRequest_ProjectUserLoginToken.php
+        |           |-- CreateRequest_UserLoginToken.php
+        |           |-- CreateResponse
+        |           |   `-- Error.php
+        |           |-- CreateResponse.php
+        |           |-- CreateResponse_Error.php
+        |           |-- RefreshRequest.php
+        |           |-- RefreshResponse
+        |           |   `-- Error.php
+        |           |-- RefreshResponse.php
+        |           |-- RefreshResponse_Error.php
+        |           `-- TokenPayload.php
+        `-- GPBMetadata
+            `-- IdentityService
+                |-- Common.php
+                `-- IdentityV1.php
+
+28 directories, 32 files
 ```
