@@ -19,8 +19,11 @@ message UseCodeRequest {
 }
 
 message UseCodeResponse {
+  message UseCodeInvalidPayload {}
+
   oneof payload {
     appelis.identity.common.v1.TokenError tokenErr = 1;
     appelis.identity.common.v1.PermissionError permErr = 2;
+    UseCodeInvalidPayload invalidPayload = 3;
   }
 }
