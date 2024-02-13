@@ -46,7 +46,7 @@ and the `pecl install grpc` command take a long time (~27 minutes on decent CPU)
 
 `docker build -t academy-grpc-php -f ./Dockerfile .`
 
-`docker run -it --rm -v academy-grpc-php` will display the generated files:
+`docker run -it --rm academy-grpc-php` will display the generated files:
 
 ```
 /src/proto-storage_academy
