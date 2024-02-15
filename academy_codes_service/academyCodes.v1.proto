@@ -7,7 +7,7 @@ package appelis.academyCodes.v1;
 import "proto-storage_academy/identity_service/common.proto";
 import "google/protobuf/timestamp.proto";
 
-service AcademyCodesService {
+service AcademyCodesPublic {
   rpc UseCode (UseCodeRequest) returns (UseCodeResponse) {}
 }
 
