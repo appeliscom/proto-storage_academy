@@ -1,9 +1,8 @@
 syntax = "proto3";
 
-option go_package = "GoServerCore/proto-storage/generated/go/identity_service";
-option java_package = "com.appelis.identity";
+option go_package = "proto-storage_academy/identity_service";
 
-package appelis.identity.common.v1;
+package appelis.academyVendored.identity.common.v1;
 
 message Token {
     string data = 1;

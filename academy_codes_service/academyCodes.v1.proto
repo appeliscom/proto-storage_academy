@@ -1,8 +1,10 @@
 syntax = "proto3";
 
+option go_package = "proto-storage_academy/academy_codes_service";
+
 package appelis.academyCodes.v1;
 
-import "identity_service/common.proto";
+import "proto-storage_academy/identity_service/common.proto";
 import "google/protobuf/timestamp.proto";
 
 service AcademyCodesService {
@@ -10,7 +12,7 @@ service AcademyCodesService {
 }
 
 message UseCodeRequest {
-  appelis.identity.common.v1.Token token = 1;
+  appelis.academyVendored.identity.common.v1.Token token = 1;
   string courseId = 2;
   string couponCode = 3;
   string ticketUrl = 4;
@@ -22,8 +24,8 @@ message UseCodeResponse {
   message UseCodeInvalidPayload {}
 
   oneof payload {
-    appelis.identity.common.v1.TokenError tokenErr = 1;
-    appelis.identity.common.v1.PermissionError permErr = 2;
+    appelis.academyVendored.identity.common.v1.TokenError tokenErr = 1;
+    appelis.academyVendored.identity.common.v1.PermissionError permErr = 2;
     UseCodeInvalidPayload invalidPayload = 3;
   }
 }
