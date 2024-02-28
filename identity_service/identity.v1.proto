@@ -1,8 +1,6 @@
 syntax = "proto3";
 
-option go_package = "proto-storage_academy/identity_service";
-
-package appelis.academyVendored.identity.v1;
+package appelis.identity.v1;
 
 // Public api for generating jwt tokens
 service IdentityService {
